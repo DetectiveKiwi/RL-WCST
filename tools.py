@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import plotly.express as px
+import pandas as pd
 from tqdm import tqdm
 
 def moving_average(a, n):
@@ -186,3 +188,108 @@ def plot_scores(scores, num_to_avg, ideal_mean, ideal_std, title=''):
     plt.xlabel('Trial Number')
     plt.ylabel('Percent Correct Over '+str(num_to_avg)+' Trials')
     plt.title(title)
+    
+def average_stim(stim):
+    '''
+    Averages stimulus based representation across all inputs, 
+        re-ordered according to Figures/rolling.png
+        
+    Parameters
+    ----------
+    stim : 64 by 64 matrix, where each array (second dim) is re-ordered
+    
+    Returns
+    -------
+    mean_stim : stim, averaged across first second dimension
+    '''
+    x = []
+    y = []
+    z = []
+
+    for i in range(4):
+        for j in range(4):
+            for k in range(4):
+                x.append(i)
+                y.append(j)
+                z.append(k)
+
+    coords = pd.DataFrame()
+    coords_all = []
+
+    count = 0
+    for i in range(4):
+        for j in range(4):
+            for k in range(4):
+                coords = pd.DataFrame()
+                coords['x'] = np.roll(x, 16*i)
+                coords['y'] = np.roll(y, 4*j)
+                coords['z'] = np.roll(z, k)
+                coords['stim'] = stim[count]
+                coords['count'] = np.ones(len(x), dtype=int) * count
+                coords_all.append(coords)
+                count += 1
+
+    coords = pd.concat(coords_all, ignore_index=True)
+    mean_stim = []
+
+    for i in range(len(x)):
+        mean_stim.append(
+            np.mean(coords[(coords['x']==x[i]) & (coords['y']==y[i]) & (coords['z']==z[i])].stim.values)
+        )
+    
+    return np.array(mean_stim)
+
+def plot_stim_by_dim(stim, stim_name='amp', color_lim=0.24, r=2.5, theta=-np.pi/4+0.4, phi=np.pi/2-0.05):
+    '''
+    Plots the stimulus representation by feature dimension
+    
+    Parameters
+    ----------
+    stim : length 64 array representing the values, ordered by dimensions
+    stim_name : name of the stimulus representation
+    color_lim : color limit, from -color_lim to +color_lim
+    r : radial component of camera view in spherical coordinates
+    theta : theta component of camera view in spherical coordinates
+    phi: phi component of camera view in spherical coordinates
+    '''
+    x = []
+    y = []
+    z = []
+
+    for i in range(4):
+        for j in range(4):
+            for k in range(4):
+                x.append(i)
+                y.append(j)
+                z.append(k)
+
+    coords = pd.DataFrame()
+    coords['dim_1'] = x
+    coords['dim_2'] = y
+    coords['dim_3'] = z
+    coords[stim_name] = stim
+
+    fig = px.scatter_3d(
+        coords, 
+        x='dim_1',
+        y='dim_2',
+        z='dim_3',
+        color=stim_name,
+        range_color=[-color_lim,color_lim], 
+        color_continuous_scale='RdBu'
+    )
+    x, y, z = spherical_2_cartesian(r, theta, phi)
+    camera = dict(
+        up=dict(x=0, y=0, z=1),
+        center=dict(x=0, y=0, z=0),
+        eye=dict(x=x, y=y, z=z)
+    )
+    fig.update_layout(
+        scene_camera=camera,
+        scene=dict(
+            xaxis=dict(tickvals=np.arange(4)),
+            yaxis=dict(tickvals=np.arange(4)),
+            zaxis=dict(tickvals=np.arange(4)),
+        )
+    )
+    fig.show('png')
