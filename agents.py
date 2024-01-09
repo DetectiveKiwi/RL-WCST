@@ -260,7 +260,7 @@ class feature_rnn_fb_network(nn.Module):
     
     def update_hidden(self, input_state, hidden_state, reward):
         hh1 = T.cat([input_state, hidden_state])
-        if reward:
+        if reward==1:
             hh2 = self.hh_cor(hh1)
         else:
             hh2 = self.hh_inc(hh1)
@@ -362,7 +362,7 @@ class stimulus_rnn_fb_network(nn.Module):
     
     def update_hidden(self, input_state, hidden_state, reward):
         hh1 = T.cat([input_state, hidden_state])
-        if reward:
+        if reward==1:
             hh2 = self.hh_cor(hh1)
         else:
             hh2 = self.hh_inc(hh1)
