@@ -18,3 +18,9 @@ def moving_average(a, n):
     ret = np.cumsum(a, dtype=float)
     ret[n:] = ret[n:] - ret[:-n]
     return ret[n - 1:] / n
+
+def spherical_2_cartesian(r, theta, phi):
+    x = r*np.cos(theta)*np.sin(phi)
+    y = r*np.sin(theta)*np.sin(phi)
+    z = r*np.cos(phi)
+    return x, y, z
