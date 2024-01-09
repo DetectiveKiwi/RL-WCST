@@ -25,7 +25,10 @@ See RL-WCST-Demo.ipynb for full RL exploration
 - RL-WCST-Demo.ipynb: Full RL exploration
 - manually_run_wcst.ipynb: Example notebook for manually playing the task yourself
 - run_optimal_agent.ipynb: Notebook for running the optimal agent
-- \*.py: Backend for the optimal agent and for running the task
+- agents.py: All RL agents and their architectures
+- tools.py: A collection of random tools used throughout these notebooks
+- optimal_agent.py: The optimal agent architecture
+- WCST.py / card_generators.py / rule_generators.py: notebooks necessary for running the task
 
 # Notes
 
