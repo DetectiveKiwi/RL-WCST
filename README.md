@@ -1,0 +1,1 @@
+The WCST environment was adapted and simplified from code by Patrick Zhang here: https://github.com/learning-2-learn/wcst_engine
