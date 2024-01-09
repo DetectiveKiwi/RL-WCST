@@ -8,9 +8,9 @@ And what insights can be found about real subject performance given the RL perfo
 
 There are many ways to implement RL agents to solve this task. I begin with the most naive approach and gradually build complexity. By the end, I implement a Recurrent Neural Network (RNN), which directly learns the task structure.
 
-# Results
+See [RL-WCST-Demo.ipynb](https://github.com/DetectiveKiwi/RL-WCST/blob/main/RL-WCST-Demo.ipynb) for the full description, exploration, and results.
 
-See RL-WCST-Demo.ipynb for full RL exploration
+# Results
 
 ![plot](./Figures/rl_summary.png)
 
