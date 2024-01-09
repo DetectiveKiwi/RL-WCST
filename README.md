@@ -12,7 +12,7 @@ There are many ways to implement RL agents to solve this task. I begin with the 
 
 See RL-WCST-Demo.ipynb for full RL exploration
 
-![alt text](https://github.com/DetectiveKiwi/RL-WCST/Figures/rl_summary.png?raw=true)
+![plot](./Figures/rl_summary.pngg)
 
 - RNN's are able to learn the structure of the task: The weights can be frozen, and the agent will still perform the task well.
 - RNN's can find task structure with NO knowledge of the importance of features. That is, it can learn only information about the chosen stimuli. While taking longer to train, information about one card spreads to all other cards in a way that resembles learning of features.
